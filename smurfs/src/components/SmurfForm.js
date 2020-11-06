@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { postSmurf, fetchSmrufs } from '../actions/index'
+import { postSmurf, fetchSmurfs } from '../actions/index'
 
 const SmurfForm = props => {
     const [formData, setFormData] = useState({
@@ -15,16 +15,17 @@ const SmurfForm = props => {
             [e.target.name] : e.target.value
         })
     }
+    console.log(formData)
 
     const submitHandler = e => {
         e.preventDefault()
-        props.postSmurf({ ...formData, id: props.smrufs.length })
         setFormData({
-            name: "",
-            age: "",
-            height: ""
+            name: formData.name,
+            age: formData.age,
+            height: formData.height
         })
-        props.fetchSmrufs()
+        props.postSmurf({ ...formData, id: Date.now() })
+        props.fetchSmurfs()
     }
 
     return(
@@ -65,4 +66,4 @@ const mapState = state => {
     }
 }
 
-export default connect(mapState, {postSmurf,fetchSmrufs})(SmurfForm)
+export default connect(mapState, { postSmurf,fetchSmurfs })(SmurfForm)
